@@ -26,14 +26,11 @@ import com.liferay.portlet.documentlibrary.service.DLAppLocalServiceUtil;
 import com.liferay.portlet.expando.model.ExpandoBridge;
 import com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil;
 import cz.topolik.fsrepo.LocalFileSystemRepository;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Tomas Polesovsky
@@ -51,7 +48,7 @@ public abstract class FileSystemModel {
         _supportedActionKeys.add(ActionKeys.ADD_SUBFOLDER);
         _supportedActionKeys.add(ActionKeys.DELETE);
         _supportedActionKeys.add(ActionKeys.UPDATE);
-        
+
         _supportedActionKeys.add(ActionKeys.PERMISSIONS);
 
         _unsupportedActionKeys.add(ActionKeys.ACCESS);
@@ -96,8 +93,8 @@ public abstract class FileSystemModel {
             if(actionId.equals(ActionKeys.VIEW)) {
                 return localFile.canRead();
             }
-            
-            return localFile.canWrite();            
+
+            return localFile.canWrite();
         }
 
         return false;
@@ -185,14 +182,14 @@ public abstract class FileSystemModel {
     }
 
     public void setCompanyId(long companyId) {
-        
+
     }
 
     public void setCreateDate(Date date) {
     }
 
     public void setGroupId(long groupId) {
-        
+
     }
 
     public void setModifiedDate(Date date) {

@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.repository.RepositoryException;
 import com.liferay.portal.kernel.util.Time;
 import com.liferay.portal.service.LockLocalServiceUtil;
 import com.liferay.portal.service.UserLocalServiceUtil;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -65,7 +66,7 @@ public class FileSystemRepositoryIndexer {
                 return false;
             }
             LockLocalServiceUtil.lock(defaultUserId, FileSystemRepositoryIndexer.class.getName(), environment.getRepository().getRepositoryId(), FileSystemRepositoryIndexer.class.getName(), false, Time.HOUR);
-            
+
             if (async) {
                 //TODO: use message bus?
                 asyncThread = new Thread() {
