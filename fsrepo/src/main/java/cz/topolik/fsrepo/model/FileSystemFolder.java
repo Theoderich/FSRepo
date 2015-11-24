@@ -15,7 +15,6 @@ package cz.topolik.fsrepo.model;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portlet.documentlibrary.model.DLFolder;
 import com.liferay.portlet.documentlibrary.model.DLFolderConstants;
@@ -40,7 +39,7 @@ public class FileSystemFolder extends FileSystemModel implements Folder {
         this.folder = folder;
         this.folderId = folderId;
     }
-    
+
     public Object clone() {
         return new FileSystemFolder(repository, uuid, folderId, folder);
     }
@@ -56,7 +55,7 @@ public class FileSystemFolder extends FileSystemModel implements Folder {
 
         return result;
     }
-    
+
 	public List<Long> getAncestorFolderIds() throws PortalException, SystemException {
         List<Long> result = new ArrayList<Long>();
 
@@ -115,10 +114,6 @@ public class FileSystemFolder extends FileSystemModel implements Folder {
         return false;
     }
 
-	public boolean isSupportsSubscribing() {
-		return false;
-	}
-    
     public Class<?> getModelClass() {
         return DLFolder.class;
     }
@@ -145,7 +140,4 @@ public class FileSystemFolder extends FileSystemModel implements Folder {
         setFolderId(primaryKey);
     }
 
-	public StagedModelType getStagedModelType() {
-		return new StagedModelType(Folder.class);
-	}
 }

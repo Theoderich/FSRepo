@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2012 Tomáš Polešovský
- *
+ * <p/>
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- *
+ * <p/>
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
@@ -13,40 +13,29 @@
  */
 package cz.topolik.fsrepo;
 
+import com.liferay.portal.NoSuchRepositoryEntryException;
 import com.liferay.portal.kernel.cache.Lifecycle;
 import com.liferay.portal.kernel.cache.ThreadLocalCache;
 import com.liferay.portal.kernel.cache.ThreadLocalCacheManager;
-import com.liferay.portal.kernel.dao.orm.QueryUtil;
-import com.liferay.portal.kernel.repository.LocalRepository;
-import com.liferay.portal.kernel.util.*;
-import com.liferay.portal.security.auth.PrincipalException;
-import com.liferay.portlet.expando.model.*;
-import cz.topolik.fsrepo.mapper.FileSystemRepositoryMapper;
-import cz.topolik.fsrepo.mapper.FileSystemRepositoryIndexer;
-import cz.topolik.fsrepo.mapper.FileSystemRepositoryEnvironment;
-import cz.topolik.fsrepo.model.FileSystemFolder;
-import cz.topolik.fsrepo.model.FileSystemFileEntry;
-import cz.topolik.fsrepo.model.FileSystemFileVersion;
-import com.liferay.portal.NoSuchRepositoryEntryException;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.repository.BaseRepositoryImpl;
+import com.liferay.portal.kernel.repository.LocalRepository;
 import com.liferay.portal.kernel.repository.RepositoryException;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.FileVersion;
 import com.liferay.portal.kernel.repository.model.Folder;
-import com.liferay.portal.kernel.search.Hits;
-import com.liferay.portal.kernel.search.Query;
-import com.liferay.portal.kernel.search.SearchContext;
-import com.liferay.portal.kernel.search.SearchEngineUtil;
-import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.util.*;
 import com.liferay.portal.model.Lock;
 import com.liferay.portal.model.RepositoryEntry;
+import com.liferay.portal.security.auth.PrincipalException;
 import com.liferay.portal.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.security.permission.ActionKeys;
 import com.liferay.portal.security.permission.PermissionThreadLocal;
@@ -61,18 +50,26 @@ import com.liferay.portlet.documentlibrary.model.DLFileEntry;
 import com.liferay.portlet.documentlibrary.model.DLFolder;
 import com.liferay.portlet.documentlibrary.service.DLAppLocalServiceUtil;
 import com.liferay.portlet.documentlibrary.service.persistence.DLFolderUtil;
+import com.liferay.portlet.expando.model.ExpandoColumn;
+import com.liferay.portlet.expando.model.ExpandoColumnConstants;
+import com.liferay.portlet.expando.model.ExpandoTable;
+import com.liferay.portlet.expando.model.ExpandoValue;
 import com.liferay.portlet.expando.service.ExpandoColumnLocalServiceUtil;
 import com.liferay.portlet.expando.service.ExpandoTableLocalServiceUtil;
 import com.liferay.portlet.expando.service.ExpandoValueLocalServiceUtil;
+import cz.topolik.fsrepo.mapper.FileSystemRepositoryEnvironment;
+import cz.topolik.fsrepo.mapper.FileSystemRepositoryIndexer;
+import cz.topolik.fsrepo.mapper.FileSystemRepositoryMapper;
+import cz.topolik.fsrepo.model.FileSystemFileEntry;
+import cz.topolik.fsrepo.model.FileSystemFileVersion;
+import cz.topolik.fsrepo.model.FileSystemFolder;
+
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import static cz.topolik.fsrepo.Constants.*;
 
 /**
@@ -83,19 +80,19 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
 
     private static Log _log = LogFactoryUtil.getLog(LocalFileSystemRepository.class);
     private FileSystemRepositoryEnvironment environment;
-	private LocalFileSystemLocalRepository localRepository;
+    private LocalFileSystemLocalRepository localRepository;
     private ExpandoColumn expandoColumn;
 
-    public LocalFileSystemRepository(){
+    public LocalFileSystemRepository() {
         localRepository = new LocalFileSystemLocalRepository(this);
     }
 
-	@Override
-	public LocalRepository getLocalRepository() {
-		return localRepository;
-	}
+    @Override
+    public LocalRepository getLocalRepository() {
+        return localRepository;
+    }
 
-	@Override
+    @Override
     public void initRepository() throws PortalException, SystemException {
         try {
             if (_log.isInfoEnabled()) {
@@ -192,7 +189,7 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
     public int getFoldersAndFileEntriesCount(long folderId) throws SystemException {
         try {
             File dir = folderIdToFile(folderId);
-            if(dir == null){
+            if (dir == null) {
                 return 0;
             }
             return loadFilesFromDisk(dir, 0).size();
@@ -378,7 +375,7 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
     public int getFileEntriesCount(long folderId) throws SystemException {
         try {
             File dir = folderIdToFile(folderId);
-            if(dir == null){
+            if (dir == null) {
                 return 0;
             }
             return loadFilesFromDisk(dir, 2).size();
@@ -553,7 +550,7 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
             }
 
             RepositoryEntry repositoryEntry = RepositoryEntryUtil.fetchByPrimaryKey(fileEntryId);
-            RepositoryEntryUtil.update(repositoryEntry);
+            RepositoryEntryUtil.update(repositoryEntry, true);
             try {
                 saveFileToExpando(repositoryEntry, dstFile);
             } catch (FileNotFoundException ex) {
@@ -591,7 +588,7 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
             }
 
             RepositoryEntry repositoryEntry = RepositoryEntryUtil.fetchByPrimaryKey(folderId);
-            RepositoryEntryUtil.update(repositoryEntry);
+            RepositoryEntryUtil.update(repositoryEntry, true);
             try {
                 saveFileToExpando(repositoryEntry, dstFolder);
             } catch (FileNotFoundException ex) {
@@ -669,7 +666,7 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
             file.renameTo(dstFile);
 
             RepositoryEntry repositoryEntry = RepositoryEntryUtil.fetchByPrimaryKey(fileEntryId);
-            RepositoryEntryUtil.update(repositoryEntry);
+            RepositoryEntryUtil.update(repositoryEntry, true);
             try {
                 saveFileToExpando(repositoryEntry, dstFile);
             } catch (FileNotFoundException ex) {
@@ -746,7 +743,7 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
         repositoryEntry.setGroupId(getGroupId());
         repositoryEntry.setRepositoryId(getRepositoryId());
         repositoryEntry.setMappedId(LocalFileSystemRepository.class.getName() + String.valueOf(repositoryEntryId));
-        RepositoryEntryUtil.update(repositoryEntry);
+        RepositoryEntryUtil.update(repositoryEntry, true);
         try {
             saveFileToExpando(repositoryEntry, file);
         } catch (Exception ex) {
@@ -904,7 +901,7 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
         } else if (!dlFolder.isMountPoint()) {
             throw new RepositoryException(
                     "LocalFileSystem repository should not be used with {folderId="
-                    + folderId + "}");
+                            + folderId + "}");
         }
         try {
             repositoryEntry = retrieveRepositoryEntry(getRootFolder(), DLFolder.class);
@@ -929,7 +926,7 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
 
     protected File getFileFromExpando(RepositoryEntry entry) throws FileNotFoundException, SystemException, PortalException {
         ExpandoValue expandoValue = ExpandoValueLocalServiceUtil.getValue(expandoColumn.getTableId(), expandoColumn.getColumnId(), entry.getPrimaryKey());
-        if(expandoValue == null){
+        if (expandoValue == null) {
             throw new IllegalStateException("Database is corrupted! Please recreate this repository!");
         }
         String value = expandoValue.getString();
@@ -964,33 +961,33 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
         return GetterUtil.getBoolean(getTypeSettingsProperties().getProperty(ADD_GROUP_PERMISSIONS), true);
     }
 
-    protected List<File> loadFilesFromDisk(File dir, final int type){
+    protected List<File> loadFilesFromDisk(File dir, final int type) {
         List<File> result = new ArrayList<File>();
-        if(!dir.canRead()){
+        if (!dir.canRead()) {
             return result;
         }
         String cacheKey = dir.getAbsolutePath();
         File[] cached = getFromCache(cacheKey);
-        if(cached == null){
+        if (cached == null) {
             cached = dir.listFiles();
             putToCache(cacheKey, cached);
         }
-        for(File f : cached){
-            switch (type){
-                case 2 : {
-                    if(!f.isDirectory()){
+        for (File f : cached) {
+            switch (type) {
+                case 2: {
+                    if (!f.isDirectory()) {
                         result.add(f);
                     }
                     break;
                 }
-                case 1 : {
-                    if(f.isDirectory()){
+                case 1: {
+                    if (f.isDirectory()) {
                         result.add(f);
                     }
                     break;
                 }
-                case 0 :
-                default : {
+                case 0:
+                default: {
                     result.add(f);
                     break;
                 }
@@ -998,63 +995,64 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
         }
         return result;
     }
-/*
-    protected List<FileEntry> getFileEntriesFromDisk(File dir) throws SystemException {
-        List<FileEntry> result = new ArrayList<FileEntry>();
-        if(dir == null){
-            return result;
-        }
-        List cached = getFromCache(dir.getAbsolutePath());
-        if(cached != null){
-            return cached;
-        }
 
-        if (dir.canRead()) {
-            File[] files = loadFilesFromDisk(dir, 2);
-            for (File file : files) {
-                FileEntry f = fileToFileEntry(file);
-                if (f != null) {
-                    result.add(f);
+    /*
+        protected List<FileEntry> getFileEntriesFromDisk(File dir) throws SystemException {
+            List<FileEntry> result = new ArrayList<FileEntry>();
+            if(dir == null){
+                return result;
+            }
+            List cached = getFromCache(dir.getAbsolutePath());
+            if(cached != null){
+                return cached;
+            }
+
+            if (dir.canRead()) {
+                File[] files = loadFilesFromDisk(dir, 2);
+                for (File file : files) {
+                    FileEntry f = fileToFileEntry(file);
+                    if (f != null) {
+                        result.add(f);
+                    }
                 }
             }
+
         }
 
-    }
+        protected List<Folder> getFoldersFromDisk(File dir) throws SystemException, PortalException {
+            List<Folder> result = new ArrayList<Folder>();
+            if(dir == null){
+                return result;
+            }
+            List cached = getFromCache(dir.getAbsolutePath());
+            if(cached != null){
+                return cached;
+            }
 
-    protected List<Folder> getFoldersFromDisk(File dir) throws SystemException, PortalException {
-        List<Folder> result = new ArrayList<Folder>();
-        if(dir == null){
-            return result;
-        }
-        List cached = getFromCache(dir.getAbsolutePath());
-        if(cached != null){
-            return cached;
-        }
-
-        if (dir.canRead()) {
-            File[] subDirectories = loadFilesFromDisk(dir, 1);
-            for (File subDir : subDirectories) {
-                Folder f = fileToFolder(subDir);
-                if (f != null) {
-                    result.add(f);
+            if (dir.canRead()) {
+                File[] subDirectories = loadFilesFromDisk(dir, 1);
+                for (File subDir : subDirectories) {
+                    Folder f = fileToFolder(subDir);
+                    if (f != null) {
+                        result.add(f);
+                    }
                 }
             }
+
+            putToCache(dir.getAbsolutePath(), result);
+            return result;
         }
 
-        putToCache(dir.getAbsolutePath(), result);
-        return result;
-    }
-
-*/
-    protected File[] getFromCache(String cacheKey){
+    */
+    protected File[] getFromCache(String cacheKey) {
         String cacheName = new Exception().getStackTrace()[1].getMethodName();
         ThreadLocalCache<File[]> threadLocalCache =
                 ThreadLocalCacheManager.getThreadLocalCache(
                         Lifecycle.REQUEST, cacheName);
-        return  threadLocalCache != null ? threadLocalCache.get(cacheKey) : null;
+        return threadLocalCache != null ? threadLocalCache.get(cacheKey) : null;
     }
 
-    protected void putToCache(String cacheKey, File[] value){
+    protected void putToCache(String cacheKey, File[] value) {
         String cacheName = new Exception().getStackTrace()[1].getMethodName();
         ThreadLocalCache<File[]> threadLocalCache =
                 ThreadLocalCacheManager.getThreadLocalCache(

@@ -48,14 +48,14 @@ public class LocalFileSystemLocalRepository implements LocalRepository {
         return repository.getFileEntries(l, i, i1, orderByComparator);
     }
 
-    public List<Object> getFileEntriesAndFileShortcuts(long l, int i, int i1, int i2) 
-    		throws SystemException, PortalException {
+    public List<Object> getFileEntriesAndFileShortcuts(long l, int i, int i1, int i2)
+    		throws SystemException {
         setLocalCall();
         return repository.getFileEntriesAndFileShortcuts(l, i, i1, i2);
     }
 
-    public int getFileEntriesAndFileShortcutsCount(long l, int i) 
-    		throws SystemException, PortalException {
+    public int getFileEntriesAndFileShortcutsCount(long l, int i)
+    		throws SystemException {
         setLocalCall();
         return repository.getFileEntriesAndFileShortcutsCount(l, i);
     }

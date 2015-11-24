@@ -15,7 +15,6 @@ package cz.topolik.fsrepo.model;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
@@ -57,7 +56,7 @@ public class FileSystemFileEntry extends FileSystemModel implements FileEntry {
         this.parentFolder = parentFolder;
         this.fileVersion = fileVersion;
     }
-    
+
     public Object clone() {
         return new FileSystemFileEntry(repository, uuid, fileEntryId, parentFolder, localFile, fileVersion);
     }
@@ -174,10 +173,6 @@ public class FileSystemFileEntry extends FileSystemModel implements FileEntry {
         return false;
     }
 
-    public boolean isManualCheckInRequired() {
-		return false;
-	}
-
     public long getPrimaryKey() {
         return fileEntryId;
     }
@@ -212,19 +207,5 @@ public class FileSystemFileEntry extends FileSystemModel implements FileEntry {
     public String getName() {
         return getTitle();
     }
-
-	public StagedModelType getStagedModelType() {
-		return new StagedModelType(FileEntry.class);
-	}
-
-	public boolean isInTrash() {
-		//Trashcan of native fs not supported, what's available on fs is considered not in trash.
-		return false;
-	}
-
-	public boolean isInTrashContainer() {
-		//Trashcan of native fs not supported, what's available on fs is considered not in trash.
-		return false;
-	}
 
 }

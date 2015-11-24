@@ -15,7 +15,6 @@ package cz.topolik.fsrepo.model;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
@@ -51,7 +50,7 @@ public class FileSystemFileVersion extends FileSystemModel implements FileVersio
         this.fileVersionId = fileVersionId;
         this.fileEntry = fileEntry;
     }
-    
+
     public Object clone() {
         return new FileSystemFileVersion(repository, fileVersionId, fileEntry, super.localFile);
     }
@@ -185,13 +184,10 @@ public class FileSystemFileVersion extends FileSystemModel implements FileVersio
     public void setPrimaryKey(long primaryKey) {
         fileVersionId = primaryKey;
     }
-    
+
     @Override
     public String getName() {
         return getTitle();
     }
 
-	public StagedModelType getStagedModelType() {
-		return new StagedModelType(FileVersion.class);
-	}
 }
