@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * @author Tomas Polesovsky
  */
-public class FileSystemFolder extends FileSystemModel implements Folder {
+public class FileSystemFolder extends FileSystemModel<Folder> implements Folder {
 
     private File folder;
     private long folderId;

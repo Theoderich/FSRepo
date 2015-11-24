@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.repository.model.Folder;
+import com.liferay.portal.kernel.repository.model.RepositoryModel;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.security.permission.ActionKeys;
 import com.liferay.portal.security.permission.PermissionChecker;
@@ -35,7 +36,7 @@ import java.util.*;
 /**
  * @author Tomas Polesovsky
  */
-public abstract class FileSystemModel {
+public abstract class FileSystemModel<T> implements RepositoryModel<T> {
 
     private static Log _log = LogFactoryUtil.getLog(FileSystemModel.class);
     private static Set<String> _supportedActionKeys = new HashSet<>();

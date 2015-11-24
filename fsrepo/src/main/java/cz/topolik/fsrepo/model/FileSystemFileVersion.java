@@ -38,7 +38,7 @@ import java.util.Date;
 /**
  * @author Tomas Polesovsky
  */
-public class FileSystemFileVersion extends FileSystemModel implements FileVersion {
+public class FileSystemFileVersion extends FileSystemModel<FileVersion> implements FileVersion {
 
     private static Log _log = LogFactoryUtil.getLog(FileSystemFileVersion.class);
     private long fileVersionId;

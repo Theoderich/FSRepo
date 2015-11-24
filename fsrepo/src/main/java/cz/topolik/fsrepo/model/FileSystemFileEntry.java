@@ -42,12 +42,11 @@ import java.util.List;
 /**
  * @author Tomas Polesovsky
  */
-public class FileSystemFileEntry extends FileSystemModel implements FileEntry {
+public class FileSystemFileEntry extends FileSystemModel<FileEntry> implements FileEntry {
 
     private static Log _log = LogFactoryUtil.getLog(FileSystemFileEntry.class);
     private FileVersion fileVersion;
     private long fileEntryId;
-    private Folder parentFolder;
 
     public FileSystemFileEntry(LocalFileSystemRepository repository, String uuid, long fileEntryId, Folder parentFolder, File localFile, FileVersion fileVersion) {
         super(repository, uuid, localFile);
