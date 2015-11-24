@@ -131,7 +131,12 @@ public class FileSystemRepositoryIndexer {
             index(file);
 
             if (file.isDirectory() && file.canRead()) {
-                for (File subFolder : file.listFiles()) {
+                File[] files = file.listFiles();
+                //cannot read
+                if (files == null) {
+                    return;
+                }
+                for (File subFolder : files) {
                     run(subFolder);
                 }
             }

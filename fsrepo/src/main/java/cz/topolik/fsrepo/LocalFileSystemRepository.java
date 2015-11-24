@@ -232,7 +232,9 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
         File subDir = folderIdToFile(parentFolderId);
         if (subDir.exists() && subDir.canWrite()) {
             File folder = new File(subDir, title);
-            folder.mkdir();
+            if (!folder.mkdir()) {
+                throw new SystemException("Cannot create dir " + folder);
+            }
             return fileToFolder(folder);
         } else {
             throw new SystemException("Parent directory " + subDir + " cannot be read!");
@@ -307,7 +309,7 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
             throw new SystemException("File doesn't exist or cannot be modified " + file);
         }
 
-        file.delete();
+        safeDelete(file);
         RepositoryEntryUtil.remove(fileEntryId);
     }
 
@@ -319,8 +321,14 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
             throw new SystemException("Folder doesn't exist or cannot be modified " + folder);
         }
 
-        folder.delete();
+        safeDelete(folder);
         RepositoryEntryUtil.remove(folderId);
+    }
+
+    private void safeDelete(File file) throws SystemException {
+        if (!file.delete()) {
+            throw new SystemException("Cannot delete file " + file);
+        }
     }
 
     public List<FileEntry> getFileEntries(long folderId, int start, int end, OrderByComparator obc) throws SystemException {
@@ -660,7 +668,7 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
             }
         }
         if (toRename) {
-            file.renameTo(dstFile);
+            safeRename(file, dstFile);
 
             RepositoryEntry repositoryEntry = RepositoryEntryUtil.fetchByPrimaryKey(fileEntryId);
             RepositoryEntryUtil.update(repositoryEntry, true);
@@ -671,6 +679,12 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
             }
         }
         return fileToFileEntry(dstFile);
+    }
+
+    private void safeRename(File file, File dstFile) throws SystemException {
+        if (!file.renameTo(dstFile)) {
+            throw new SystemException("Cannot rename file " + file + " to " + dstFile);
+        }
     }
 
     public Folder updateFolder(long folderId, String title, String description, ServiceContext serviceContext) throws PortalException, SystemException {
@@ -684,7 +698,7 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
             throw new SystemException("Folder doesn't exist or cannot be changed: " + folder);
         }
         File newFolder = new File(folder.getParentFile(), title);
-        folder.renameTo(newFolder);
+        safeRename(folder, newFolder);
         return fileToFolder(newFolder);
     }
 
@@ -965,6 +979,10 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
         File[] cached = getFromCache(cacheKey);
         if (cached == null) {
             cached = dir.listFiles();
+            //cannot read
+            if (cached == null) {
+                return result;
+            }
             putToCache(cacheKey, cached);
         }
         for (File f : cached) {
