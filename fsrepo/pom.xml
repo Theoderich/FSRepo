@@ -81,7 +81,8 @@
         </dependency>
     </dependencies>
     <properties>
-        <liferay.auto.deploy.dir>/opt/liferay.git/bundles/tomcat-7.0.25</liferay.auto.deploy.dir>
+        <liferay.home>O:/home/liferay_home</liferay.home>
+        <liferay.auto.deploy.dir>${liferay.home}\project-data\deploy</liferay.auto.deploy.dir>
         <liferay.version>6.1.2</liferay.version>
     </properties>
 </project>
