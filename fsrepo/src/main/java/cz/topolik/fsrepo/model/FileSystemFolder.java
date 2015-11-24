@@ -30,7 +30,7 @@ import java.util.List;
  */
 public class FileSystemFolder extends FileSystemModel<Folder> implements Folder {
 
-    private File folder;
+    private final File folder;
     private long folderId;
 
     public FileSystemFolder(LocalFileSystemRepository repository, String uuid, long folderId, File folder) {

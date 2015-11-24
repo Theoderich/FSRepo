@@ -34,8 +34,8 @@ import java.util.List;
  */
 public class FileSystemRepositoryMapper {
 
-    private static Log _log = LogFactoryUtil.getLog(FileSystemRepositoryMapper.class);
-    private FileSystemRepositoryEnvironment environment;
+    private static final Log _log = LogFactoryUtil.getLog(FileSystemRepositoryMapper.class);
+    private final FileSystemRepositoryEnvironment environment;
     private MessageDigest md;
 
     public FileSystemRepositoryMapper(FileSystemRepositoryEnvironment environment) {

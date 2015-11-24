@@ -78,9 +78,9 @@ import static cz.topolik.fsrepo.Constants.*;
 // TODO: PropsValues.PERMISSIONS_VIEW_DYNAMIC_INHERITANCE - check ACCESS + VIEW on the parent folder
 public class LocalFileSystemRepository extends BaseRepositoryImpl {
 
-    private static Log _log = LogFactoryUtil.getLog(LocalFileSystemRepository.class);
+    private static final Log _log = LogFactoryUtil.getLog(LocalFileSystemRepository.class);
+    private final LocalFileSystemLocalRepository localRepository;
     private FileSystemRepositoryEnvironment environment;
-    private LocalFileSystemLocalRepository localRepository;
     private ExpandoColumn expandoColumn;
 
     public LocalFileSystemRepository() {

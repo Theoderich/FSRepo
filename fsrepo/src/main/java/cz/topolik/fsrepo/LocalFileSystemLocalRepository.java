@@ -18,8 +18,8 @@ import java.util.List;
  * @author Tomas Polesovsky
  */
 public class LocalFileSystemLocalRepository implements LocalRepository {
-    private LocalFileSystemRepository repository;
-    private static ThreadLocal<Boolean> localCall = new AutoResetThreadLocal<>(LocalFileSystemLocalRepository.class.getName() + ".localCall");
+    private final LocalFileSystemRepository repository;
+    private static final ThreadLocal<Boolean> localCall = new AutoResetThreadLocal<>(LocalFileSystemLocalRepository.class.getName() + ".localCall");
 
     public LocalFileSystemLocalRepository(LocalFileSystemRepository repository) {
         this.repository = repository;

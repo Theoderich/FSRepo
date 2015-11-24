@@ -38,9 +38,9 @@ import java.util.*;
  */
 public abstract class FileSystemModel<T> implements RepositoryModel<T> {
 
-    private static Log _log = LogFactoryUtil.getLog(FileSystemModel.class);
-    private static Set<String> _supportedActionKeys = new HashSet<>();
-    private static Set<String> _unsupportedActionKeys = new HashSet<>();
+    private static final Log _log = LogFactoryUtil.getLog(FileSystemModel.class);
+    private static final Set<String> _supportedActionKeys = new HashSet<>();
+    private static final Set<String> _unsupportedActionKeys = new HashSet<>();
 
     static {
         _supportedActionKeys.add(ActionKeys.VIEW);
@@ -60,9 +60,9 @@ public abstract class FileSystemModel<T> implements RepositoryModel<T> {
         _unsupportedActionKeys.add(ActionKeys.UPDATE_DISCUSSION);
     }
 
-    protected LocalFileSystemRepository repository;
+    protected final LocalFileSystemRepository repository;
     protected String uuid;
-    protected File localFile;
+    protected final File localFile;
     protected Folder parentFolder;
 
 

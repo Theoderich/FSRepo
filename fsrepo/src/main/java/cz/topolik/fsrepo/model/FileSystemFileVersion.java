@@ -40,7 +40,7 @@ import java.util.Date;
  */
 public class FileSystemFileVersion extends FileSystemModel<FileVersion> implements FileVersion {
 
-    private static Log _log = LogFactoryUtil.getLog(FileSystemFileVersion.class);
+    private static final Log _log = LogFactoryUtil.getLog(FileSystemFileVersion.class);
     private long fileVersionId;
     private FileEntry fileEntry;
 

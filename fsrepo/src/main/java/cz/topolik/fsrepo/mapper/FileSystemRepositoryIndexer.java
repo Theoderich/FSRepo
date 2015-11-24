@@ -32,8 +32,8 @@ import java.util.List;
  */
 public class FileSystemRepositoryIndexer {
 
-    private static Log _log = LogFactoryUtil.getLog(FileSystemRepositoryIndexer.class);
-    private FileSystemRepositoryEnvironment environment;
+    private static final Log _log = LogFactoryUtil.getLog(FileSystemRepositoryIndexer.class);
+    private final FileSystemRepositoryEnvironment environment;
     private Thread asyncThread;
     private final List<File> filesToIndex = new ArrayList<>();
 

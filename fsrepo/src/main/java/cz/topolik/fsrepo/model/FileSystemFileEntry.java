@@ -44,7 +44,7 @@ import java.util.List;
  */
 public class FileSystemFileEntry extends FileSystemModel<FileEntry> implements FileEntry {
 
-    private static Log _log = LogFactoryUtil.getLog(FileSystemFileEntry.class);
+    private static final Log _log = LogFactoryUtil.getLog(FileSystemFileEntry.class);
     private FileVersion fileVersion;
     private long fileEntryId;
 

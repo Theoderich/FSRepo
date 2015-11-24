@@ -32,7 +32,7 @@ import java.util.List;
  */
 public class RepositoryStartupAction extends SimpleAction {
 
-    private static Log _log = LogFactoryUtil.getLog(RepositoryStartupAction.class);
+    private static final Log _log = LogFactoryUtil.getLog(RepositoryStartupAction.class);
 
     @Override
     public void run(String[] strings) throws ActionException {
