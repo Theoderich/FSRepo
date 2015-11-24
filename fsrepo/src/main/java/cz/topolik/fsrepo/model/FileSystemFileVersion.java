@@ -51,10 +51,6 @@ public class FileSystemFileVersion extends FileSystemModel implements FileVersio
         this.fileEntry = fileEntry;
     }
 
-    public Object clone() {
-        return new FileSystemFileVersion(repository, fileVersionId, fileEntry, super.localFile);
-    }
-
     public String getChangeLog() {
         return StringPool.BLANK;
     }

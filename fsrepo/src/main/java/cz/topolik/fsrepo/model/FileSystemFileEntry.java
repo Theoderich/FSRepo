@@ -57,10 +57,6 @@ public class FileSystemFileEntry extends FileSystemModel implements FileEntry {
         this.fileVersion = fileVersion;
     }
 
-    public Object clone() {
-        return new FileSystemFileEntry(repository, uuid, fileEntryId, parentFolder, localFile, fileVersion);
-    }
-
     public InputStream getContentStream() throws PortalException, SystemException {
         try {
             DLAppHelperLocalServiceUtil.getFileAsStream(

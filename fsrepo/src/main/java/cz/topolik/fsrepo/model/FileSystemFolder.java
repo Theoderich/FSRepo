@@ -39,10 +39,6 @@ public class FileSystemFolder extends FileSystemModel implements Folder {
         this.folderId = folderId;
     }
 
-    public Object clone() {
-        return new FileSystemFolder(repository, uuid, folderId, folder);
-    }
-
     public List<Folder> getAncestors() throws PortalException, SystemException {
         List<Folder> result = new ArrayList<>();
 
