@@ -35,7 +35,7 @@ public class FileSystemRepositoryIndexer {
     private static Log _log = LogFactoryUtil.getLog(FileSystemRepositoryIndexer.class);
     private FileSystemRepositoryEnvironment environment;
     private Thread asyncThread;
-    private final List<File> filesToIndex = new ArrayList<File>();
+    private final List<File> filesToIndex = new ArrayList<>();
 
     public FileSystemRepositoryIndexer(FileSystemRepositoryEnvironment environment) {
         this.environment = environment;
@@ -43,7 +43,7 @@ public class FileSystemRepositoryIndexer {
 
     public List<File> getActuallyIndexedFiles() {
         synchronized (filesToIndex) {
-            List<File> result = new ArrayList<File>(filesToIndex.size());
+            List<File> result = new ArrayList<>(filesToIndex.size());
             result.addAll(filesToIndex);
             return result;
         }

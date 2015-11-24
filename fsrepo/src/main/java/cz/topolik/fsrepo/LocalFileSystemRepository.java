@@ -124,10 +124,7 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
         } catch (FileNotFoundException e) {
             _log.error(e);
             throw new SystemException(e);
-        } catch (PortalException e) {
-            _log.error(e);
-            throw e;
-        } catch (SystemException e) {
+        } catch (PortalException | SystemException e) {
             _log.error(e);
             throw e;
         }
@@ -143,7 +140,7 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
         start = start == QueryUtil.ALL_POS ? 0 : start;
         end = end == QueryUtil.ALL_POS ? Integer.MAX_VALUE : end;
 
-        List<Object> result = new ArrayList<Object>();
+        List<Object> result = new ArrayList<>();
         try {
             LocalFileSystemPermissionsUtil.checkFolder(getGroupId(), folderId, ActionKeys.VIEW);
             File systemFolder = folderIdToFile(folderId);
@@ -334,7 +331,7 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
         } catch (PrincipalException ex) {
             throw new SystemException(ex);
         }
-        List<FileEntry> result = new ArrayList<FileEntry>();
+        List<FileEntry> result = new ArrayList<>();
         try {
             File systemFolder = folderIdToFile(folderId);
             if (systemFolder.canRead()) {
@@ -365,7 +362,7 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
     }
 
     public List<FileEntry> getFileEntries(long folderId, long fileEntryTypeId, int start, int end, OrderByComparator obc) throws SystemException {
-        return new ArrayList<FileEntry>();
+        return new ArrayList<>();
     }
 
     public List<FileEntry> getFileEntries(long folderId, String[] mimeTypes, int start, int end, OrderByComparator obc) throws PortalException, SystemException {
@@ -449,7 +446,7 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
         String fileSystemDirectory = folderIdToFile(parentFolderId).getAbsolutePath();
         File dir = new File(fileSystemDirectory);
         if (dir.canRead()) {
-            List<Folder> result = new ArrayList<Folder>();
+            List<Folder> result = new ArrayList<>();
             for (File subDir : loadFilesFromDisk(dir, 1)) {
                 Folder f = fileToFolder(subDir);
                 if (f != null) {
@@ -463,7 +460,7 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
             return result;
 
         }
-        return new ArrayList<Folder>();
+        return new ArrayList<>();
     }
 
     public int getFoldersCount(long parentFolderId, boolean includeMountfolders) throws PortalException, SystemException {
@@ -487,7 +484,7 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
     }
 
     public List<Folder> getMountFolders(long parentFolderId, int start, int end, OrderByComparator obc) throws SystemException {
-        return new ArrayList<Folder>();
+        return new ArrayList<>();
     }
 
     public int getMountFoldersCount(long parentFolderId) throws SystemException {
@@ -502,7 +499,7 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
     public List<Long> getSubfolderIds(long folderId, boolean recurse) throws SystemException {
         try {
             LocalFileSystemPermissionsUtil.checkFolder(getGroupId(), folderId, ActionKeys.VIEW);
-            List<Long> result = new ArrayList();
+            List<Long> result = new ArrayList<>();
             List<Folder> folders = getFolders(folderId, false, 0, Integer.MAX_VALUE, null);
             for (Folder folder : folders) {
                 if (LocalFileSystemPermissionsUtil.containsFolder(getGroupId(), folder.getFolderId(), ActionKeys.VIEW)) {
@@ -795,9 +792,7 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
             return null;
         }
 
-        FileSystemFileVersion fileVersion = new FileSystemFileVersion(this, entry.getRepositoryEntryId(), fileEntry, file);
-
-        return fileVersion;
+        return new FileSystemFileVersion(this, entry.getRepositoryEntryId(), fileEntry, file);
     }
 
     public FileEntry fileToFileEntry(File file) throws SystemException {
@@ -904,7 +899,7 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
                             + folderId + "}");
         }
         try {
-            repositoryEntry = retrieveRepositoryEntry(getRootFolder(), DLFolder.class);
+            retrieveRepositoryEntry(getRootFolder(), DLFolder.class);
             return getRootFolder();
         } catch (FileNotFoundException ex) {
             throw new RepositoryException("Mapped root folder doesn't exist on the file system!", ex);
@@ -931,7 +926,7 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
         }
         String value = expandoValue.getString();
         String file = value.substring(value.indexOf("-") + 1);
-        if (file == null) {
+        if (file.isEmpty()) {
             throw new RuntimeException("There is no absolute path in Expando for Repository Entry [id]: [" + entry.getRepositoryEntryId() + "]");
         }
         File f = new File(getRootFolder(), file);
@@ -962,7 +957,7 @@ public class LocalFileSystemRepository extends BaseRepositoryImpl {
     }
 
     protected List<File> loadFilesFromDisk(File dir, final int type) {
-        List<File> result = new ArrayList<File>();
+        List<File> result = new ArrayList<>();
         if (!dir.canRead()) {
             return result;
         }

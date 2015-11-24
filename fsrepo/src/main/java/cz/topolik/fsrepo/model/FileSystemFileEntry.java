@@ -36,7 +36,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -103,19 +103,17 @@ public class FileSystemFileEntry extends FileSystemModel implements FileEntry {
 
     public List<FileVersion> getFileVersions(int status) throws SystemException {
         try {
-            return Arrays.asList(new FileVersion[]{getFileVersion()});
+            return Collections.singletonList(getFileVersion());
         } catch (PortalException ex) {
             _log.error(ex);
         }
-        return new ArrayList<FileVersion>();
+        return new ArrayList<>();
     }
 
     public Folder getFolder() {
         try {
             return getParentFolder();
-        } catch (PortalException ex) {
-            _log.error(ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             _log.error(ex);
         }
         return null;

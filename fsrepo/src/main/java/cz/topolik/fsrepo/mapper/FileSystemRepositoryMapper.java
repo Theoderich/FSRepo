@@ -69,9 +69,9 @@ public class FileSystemRepositoryMapper {
         byte[] mdbytes = md.digest();
 
         //convert the byte to hex format
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < mdbytes.length; i++) {
-            sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
+        StringBuilder sb = new StringBuilder();
+        for (byte mdbyte : mdbytes) {
+            sb.append(Integer.toString((mdbyte & 0xff) + 0x100, 16).substring(1));
         }
         String mappedId = sb.toString();
 
@@ -94,11 +94,7 @@ public class FileSystemRepositoryMapper {
                 prefs.setValue(checksum, file.getAbsolutePath());
             }
             prefs.store();
-        } catch (IOException ex) {
-            _log.error(ex);
-        } catch (ValidatorException ex) {
-            _log.error(ex);
-        } catch (ReadOnlyException ex) {
+        } catch (IOException | ReadOnlyException | ValidatorException ex) {
             _log.error(ex);
         }
     }
@@ -109,11 +105,7 @@ public class FileSystemRepositoryMapper {
             String checksum = fileToMappedId(file);
             prefs.reset(checksum);
             prefs.store();
-        } catch (IOException ex) {
-            _log.error(ex);
-        } catch (ValidatorException ex) {
-            _log.error(ex);
-        } catch (ReadOnlyException ex) {
+        } catch (IOException | ReadOnlyException | ValidatorException ex) {
             _log.error(ex);
         }
     }
@@ -127,11 +119,7 @@ public class FileSystemRepositoryMapper {
         try {
             prefs.setValue(mappedId, file.getAbsolutePath());
             prefs.store();
-        } catch (IOException ex) {
-            _log.error(ex);
-        } catch (ValidatorException ex) {
-            _log.error(ex);
-        } catch (ReadOnlyException ex) {
+        } catch (IOException | ReadOnlyException | ValidatorException ex) {
             _log.error(ex);
         }
     }

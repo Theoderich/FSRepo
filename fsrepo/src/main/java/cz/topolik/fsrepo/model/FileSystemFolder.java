@@ -44,7 +44,7 @@ public class FileSystemFolder extends FileSystemModel implements Folder {
     }
 
     public List<Folder> getAncestors() throws PortalException, SystemException {
-        List<Folder> result = new ArrayList<Folder>();
+        List<Folder> result = new ArrayList<>();
 
         Folder f = this;
         while (!f.isRoot()) {
@@ -56,7 +56,7 @@ public class FileSystemFolder extends FileSystemModel implements Folder {
     }
 
     public List<Long> getAncestorFolderIds() throws PortalException, SystemException {
-        List<Long> result = new ArrayList<Long>();
+        List<Long> result = new ArrayList<>();
 
         Folder f = this;
         while (!f.isRoot()) {
@@ -98,11 +98,7 @@ public class FileSystemFolder extends FileSystemModel implements Folder {
     }
 
     public boolean isRoot() {
-        if (getParentFolderId() == DLFolderConstants.DEFAULT_PARENT_FOLDER_ID) {
-            return true;
-        } else {
-            return false;
-        }
+        return getParentFolderId() == DLFolderConstants.DEFAULT_PARENT_FOLDER_ID;
     }
 
     public boolean isSupportsMultipleUpload() {

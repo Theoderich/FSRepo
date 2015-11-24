@@ -41,7 +41,7 @@ public class LocalFileSystemPermissionsUtil {
                     companyId = PortalUtil.getDefaultCompanyId();
                 }
                 User defaultUser = UserLocalServiceUtil.getDefaultUser(companyId);
-                permissionChecker = PermissionCheckerFactoryUtil.create(defaultUser, true);
+                permissionChecker = PermissionCheckerFactoryUtil.create(defaultUser);
                 PermissionThreadLocal.setPermissionChecker(permissionChecker);
             } catch (Exception e) {
                 throw new RuntimeException(e.getMessage(), e);

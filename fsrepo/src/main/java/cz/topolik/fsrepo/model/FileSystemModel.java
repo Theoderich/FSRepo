@@ -38,8 +38,8 @@ import java.util.*;
 public abstract class FileSystemModel {
 
     private static Log _log = LogFactoryUtil.getLog(FileSystemModel.class);
-    private static Set<String> _supportedActionKeys = new HashSet<String>();
-    private static Set<String> _unsupportedActionKeys = new HashSet<String>();
+    private static Set<String> _supportedActionKeys = new HashSet<>();
+    private static Set<String> _unsupportedActionKeys = new HashSet<>();
 
     static {
         _supportedActionKeys.add(ActionKeys.VIEW);
@@ -175,7 +175,7 @@ public abstract class FileSystemModel {
     }
 
     public Map<String, Serializable> getAttributes() {
-        return new HashMap<String, Serializable>();
+        return new HashMap<>();
     }
 
     public boolean isEscapedModel() {
@@ -197,7 +197,7 @@ public abstract class FileSystemModel {
     }
 
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-        setPrimaryKey(((Long) primaryKeyObj).longValue());
+        setPrimaryKey((Long) primaryKeyObj);
     }
 
     public void setUserId(long userId) {
@@ -234,8 +234,7 @@ public abstract class FileSystemModel {
             File parentFile = localFile.getParentFile();
             File rootFolder = repository.getRootFolder();
             if (parentFile.getAbsolutePath().length() <= rootFolder.getAbsolutePath().length()) {
-                Folder mountFolder = DLAppLocalServiceUtil.getMountFolder(getRepositoryId());
-                parentFolder = mountFolder;
+                parentFolder = DLAppLocalServiceUtil.getMountFolder(getRepositoryId());
             } else {
                 parentFolder = repository.fileToFolder(parentFile);
             }
