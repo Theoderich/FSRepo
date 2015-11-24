@@ -19,17 +19,17 @@ import java.util.List;
  */
 public class LocalFileSystemLocalRepository implements LocalRepository {
     private LocalFileSystemRepository repository;
-    private static ThreadLocal<Boolean> localCall = new AutoResetThreadLocal<Boolean>(LocalFileSystemLocalRepository.class.getName()+".localCall");
+    private static ThreadLocal<Boolean> localCall = new AutoResetThreadLocal<Boolean>(LocalFileSystemLocalRepository.class.getName() + ".localCall");
 
     public LocalFileSystemLocalRepository(LocalFileSystemRepository repository) {
         this.repository = repository;
     }
 
-    protected void setLocalCall(){
+    protected void setLocalCall() {
         localCall.set(Boolean.TRUE);
     }
 
-    public static boolean isLocalCall(){
+    public static boolean isLocalCall() {
         return localCall.get() != null ? localCall.get() : false;
     }
 
@@ -49,13 +49,13 @@ public class LocalFileSystemLocalRepository implements LocalRepository {
     }
 
     public List<Object> getFileEntriesAndFileShortcuts(long l, int i, int i1, int i2)
-    		throws SystemException {
+            throws SystemException {
         setLocalCall();
         return repository.getFileEntriesAndFileShortcuts(l, i, i1, i2);
     }
 
     public int getFileEntriesAndFileShortcutsCount(long l, int i)
-    		throws SystemException {
+            throws SystemException {
         setLocalCall();
         return repository.getFileEntriesAndFileShortcutsCount(l, i);
     }
@@ -97,7 +97,7 @@ public class LocalFileSystemLocalRepository implements LocalRepository {
 
     public List<Folder> getFolders(long l, boolean b, int i, int i1, OrderByComparator orderByComparator) throws PortalException, SystemException {
         setLocalCall();
-        return repository.getFolders(l, b, i ,i1, orderByComparator);
+        return repository.getFolders(l, b, i, i1, orderByComparator);
     }
 
     public List<Object> getFoldersAndFileEntriesAndFileShortcuts(long l, int i, boolean b, int i1, int i2, OrderByComparator orderByComparator) throws SystemException {
@@ -147,43 +147,43 @@ public class LocalFileSystemLocalRepository implements LocalRepository {
 
     public FileEntry addFileEntry(long l, long l1, String s, String s1, String s2, String s3, String s4, File file, ServiceContext serviceContext) throws PortalException, SystemException {
         throw new UnsupportedOperationException();
-	}
+    }
 
-	public FileEntry addFileEntry(long l, long l1, String s, String s1, String s2, String s3, String s4, InputStream inputStream, long l2, ServiceContext serviceContext) throws PortalException, SystemException {
+    public FileEntry addFileEntry(long l, long l1, String s, String s1, String s2, String s3, String s4, InputStream inputStream, long l2, ServiceContext serviceContext) throws PortalException, SystemException {
         throw new UnsupportedOperationException();
     }
 
-	public Folder addFolder(long l, long l1, String s, String s1, ServiceContext serviceContext) throws PortalException, SystemException {
+    public Folder addFolder(long l, long l1, String s, String s1, ServiceContext serviceContext) throws PortalException, SystemException {
         throw new UnsupportedOperationException();
     }
 
-	public void deleteAll() throws PortalException, SystemException {
+    public void deleteAll() throws PortalException, SystemException {
         throw new UnsupportedOperationException();
     }
 
-	public FileEntry moveFileEntry(long l, long l1, long l2, ServiceContext serviceContext) throws PortalException, SystemException {
+    public FileEntry moveFileEntry(long l, long l1, long l2, ServiceContext serviceContext) throws PortalException, SystemException {
         throw new UnsupportedOperationException();
     }
 
-	public Folder moveFolder(long pUserId, long pFolderId,
-			long pParentFolderId, ServiceContext pServiceContext)
-			throws PortalException, SystemException {
-		throw new UnsupportedOperationException();
-	}
-
-	public void updateAsset(long l, FileEntry fileEntry, FileVersion fileVersion, long[] longs, String[] strings, long[] longs1) throws PortalException, SystemException {
+    public Folder moveFolder(long pUserId, long pFolderId,
+                             long pParentFolderId, ServiceContext pServiceContext)
+            throws PortalException, SystemException {
         throw new UnsupportedOperationException();
     }
 
-	public FileEntry updateFileEntry(long l, long l1, String s, String s1, String s2, String s3, String s4, boolean b, File file, ServiceContext serviceContext) throws PortalException, SystemException {
+    public void updateAsset(long l, FileEntry fileEntry, FileVersion fileVersion, long[] longs, String[] strings, long[] longs1) throws PortalException, SystemException {
         throw new UnsupportedOperationException();
     }
 
-	public FileEntry updateFileEntry(long l, long l1, String s, String s1, String s2, String s3, String s4, boolean b, InputStream inputStream, long l2, ServiceContext serviceContext) throws PortalException, SystemException {
+    public FileEntry updateFileEntry(long l, long l1, String s, String s1, String s2, String s3, String s4, boolean b, File file, ServiceContext serviceContext) throws PortalException, SystemException {
         throw new UnsupportedOperationException();
     }
 
-	public Folder updateFolder(long l, long l1, String s, String s1, ServiceContext serviceContext) throws PortalException, SystemException {
+    public FileEntry updateFileEntry(long l, long l1, String s, String s1, String s2, String s3, String s4, boolean b, InputStream inputStream, long l2, ServiceContext serviceContext) throws PortalException, SystemException {
+        throw new UnsupportedOperationException();
+    }
+
+    public Folder updateFolder(long l, long l1, String s, String s1, ServiceContext serviceContext) throws PortalException, SystemException {
         throw new UnsupportedOperationException();
     }
 

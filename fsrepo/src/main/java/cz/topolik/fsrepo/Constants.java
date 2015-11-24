@@ -6,7 +6,6 @@
 package cz.topolik.fsrepo;
 
 /**
- *
  * @author Tomas Polesovsky
  */
 public class Constants {

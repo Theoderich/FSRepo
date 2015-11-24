@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2012 Tomáš Polešovský
- *
+ * <p/>
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- *
+ * <p/>
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
@@ -58,6 +58,7 @@ public abstract class FileSystemModel {
         _unsupportedActionKeys.add(ActionKeys.ADD_FOLDER);
         _unsupportedActionKeys.add(ActionKeys.UPDATE_DISCUSSION);
     }
+
     protected LocalFileSystemRepository repository;
     protected String uuid;
     protected File localFile;
@@ -71,26 +72,26 @@ public abstract class FileSystemModel {
     }
 
     public boolean containsPermission(PermissionChecker permissionChecker, String actionId) throws PortalException, SystemException {
-        if(ActionKeys.ADD_FOLDER.equals(actionId)){
+        if (ActionKeys.ADD_FOLDER.equals(actionId)) {
             // ADD_FOLDER action is specified only for portlet model actions, On DLFolder level there is only ADD_SUBFOLDER - bug in Liferay.
             // Pls. see https://github.com/liferay/liferay-portal/blob/6.1.1-ga2/portal-impl/src/resource-actions/documentlibrary.xml#L156,L190
             actionId = ActionKeys.ADD_SUBFOLDER;
         }
-		if (_unsupportedActionKeys.contains(actionId)) {
-			return false;
-		}
+        if (_unsupportedActionKeys.contains(actionId)) {
+            return false;
+        }
 
-		boolean hasPermission = permissionChecker.hasPermission(repository.getGroupId(), getModelClassName(), getPrimaryKey(), actionId);
-        if(!hasPermission){
+        boolean hasPermission = permissionChecker.hasPermission(repository.getGroupId(), getModelClassName(), getPrimaryKey(), actionId);
+        if (!hasPermission) {
             return false;
         }
 
         if (_supportedActionKeys.contains(actionId)) {
-            if(actionId.equals(ActionKeys.PERMISSIONS)) {
+            if (actionId.equals(ActionKeys.PERMISSIONS)) {
                 return true;
             }
 
-            if(actionId.equals(ActionKeys.VIEW)) {
+            if (actionId.equals(ActionKeys.VIEW)) {
                 return localFile.canRead();
             }
 
@@ -240,9 +241,10 @@ public abstract class FileSystemModel {
             }
             return parentFolder;
         } catch (FileNotFoundException ex) {
-            throw new SystemException("Cannot get parent folder for [folder]: ["+localFile.getAbsolutePath()+"]", ex);
+            throw new SystemException("Cannot get parent folder for [folder]: [" + localFile.getAbsolutePath() + "]", ex);
         }
     }
+
     public abstract long getPrimaryKey();
 
     public abstract String getModelClassName();
